@@ -1,15 +1,16 @@
 import { pool } from "../../database";
 import type { IUser } from "./users.interface";
+import bcrypt from 'bcrypt'
 
 
 const createUserIntoDatabase = async(payLoad : IUser)=>{
     const {name , email, password,  is_active = false, age } = payLoad;
 
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const result = await pool.query(`
         INSERT INTO users(name, email, password, is_active, age) VALUES($1, $2, $3, $4, $5) RETURNING *
-        `, [name, email, password, is_active, age]);
-    
-    delete result.rows[0].password; //deleting the password in the returing result
+        `, [name, email, hashedPassword, is_active, age]);
 
     return result;
 }

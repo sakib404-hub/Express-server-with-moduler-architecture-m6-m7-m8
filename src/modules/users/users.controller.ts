@@ -43,11 +43,30 @@ const getSingleUser = async(req : Request, res : Response)=>{
     }
 }
 
+const updateUserInformationn = async(req : Request, res : Response)=>{
+    try{
+
+        const { id } = req.params;
+
+        const result = await usersService.updateUserInformationIntoDatabase(id as string, req.body);
+
+          if(result.rowCount === 0 || result.rows.length === 0){
+            return sendResponse(res, 404, false, `User with id -> ${id} is not found`);
+        }
+
+        sendResponse(res, 200, true, 'User Updated Successfully', result.rows[0])
+
+    }catch(err : any){
+         sendResponse(res, 500, false, err.message);
+    }
+}
+
 
 const usersController = {
     createUser,
     getAllUser,
-    getSingleUser
+    getSingleUser,
+    updateUserInformationn
 }
 
 

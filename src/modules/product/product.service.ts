@@ -11,8 +11,20 @@ const createProductIntoDatabase = (payLoad : IProduct)=>{
     return result;
 }
 
+const getAllProductsFromDatabase = async()=>{
+    const result = await pool.query(`SELECT * FROM products`);
+    return result;
+}
+
+const getSingleProductFromDatabase = async(id : string)=>{
+    const result = await pool.query(`SELECT * FROM products WHERE id = $1`, [id]);
+    return result;
+}
+
 const productService = {
-    createProductIntoDatabase
+    createProductIntoDatabase,
+    getAllProductsFromDatabase,
+    getSingleProductFromDatabase
 }
 
 export default productService;

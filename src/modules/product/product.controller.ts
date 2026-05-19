@@ -25,8 +25,41 @@ const createProduct = async(req : Request, res : Response) =>{
     }
 }
 
+const getAllProducts = async(req : Request, res : Response)=>{
+    try{
+        
+        const result = await productService.getAllProductsFromDatabase();
+
+        sendResponse(res, 200, true, result.rowCount === 0 ? 'No Product Found' : 'Products fetched successfulluy', result.rows);
+
+    }catch(err : any){
+          return sendResponse(res, 500, false, err.message);
+    }
+}
+
+const getSingleProduct = async(req : Request, res : Response)=>{
+    try{
+        const { id } = req.params;
+
+        const result = await productService.getSingleProductFromDatabase(id as string);
+
+        if(result.rowCount === 0){
+            return sendResponse(res, 404, false, 'Product not found!');
+        }
+        console.log(result.rows[0]);
+
+        return sendResponse(res, 200, true, 'Product Information fetched successfully', result.rows[0]);
+
+    }catch(err : any){
+       console.error(err);
+        return sendResponse(res, 500, false, "Internal Server Error");
+    }
+}
+
 const productController = {
-    createProduct
+    createProduct,
+    getAllProducts,
+    getSingleProduct
 }
 
 export default productController;

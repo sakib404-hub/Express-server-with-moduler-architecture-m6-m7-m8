@@ -21,10 +21,17 @@ const getSingleProductFromDatabase = async(id : string)=>{
     return result;
 }
 
+const deleteProductFromDatabase = async(id : string) =>{
+    const result = await pool.query(`DELETE FROM products WHERE id = $1 RETURNING *`,[id]);
+    return result;
+}
+
+
 const productService = {
     createProductIntoDatabase,
     getAllProductsFromDatabase,
-    getSingleProductFromDatabase
+    getSingleProductFromDatabase,
+    deleteProductFromDatabase
 }
 
 export default productService;

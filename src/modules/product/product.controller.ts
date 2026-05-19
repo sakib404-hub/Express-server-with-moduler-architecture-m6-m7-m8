@@ -56,10 +56,29 @@ const getSingleProduct = async(req : Request, res : Response)=>{
     }
 }
 
+const deleteProduct = async(req : Request, res : Response)=>{
+    try{
+        const id = req.params.id;
+
+        const result = await productService.deleteProductFromDatabase(id as string);
+
+        if(result.rows.length === 0){
+            return sendResponse(res, 404, false, 'No product found with the id');
+        }
+
+        return sendResponse(res, 200, true, 'Product Information Deleted successfully', result.rows[0])
+
+    }catch(err : any){
+        console.log(err.message);
+        return sendResponse(res, 500, false, 'Internal Server Error');
+    }
+}
+
 const productController = {
     createProduct,
     getAllProducts,
-    getSingleProduct
+    getSingleProduct,
+    deleteProduct
 }
 
 export default productController;

@@ -1,4 +1,4 @@
-import type { Request, Response } from "express";
+import { response, type Request, type Response } from "express";
 import { sendResponse } from "../../utility/sendResponse";
 import usersService from "./users.service";
 
@@ -25,10 +25,29 @@ const getAllUser = async(req : Request, res : Response)=>{
     }
 }
 
+const getSingleUser = async(req : Request, res : Response)=>{
+    try{
+
+        const {id} = req.params;
+
+        const result = await usersService.getSingleUserFromDatabase(id as string);
+        
+        if(result.rowCount === 0 || result.rows.length === 0){
+            return sendResponse(res, 404, false, `User with id -> ${id} is not found`);
+        }
+
+        sendResponse(res, 200, true, 'Users Infomation fetched successfully', result.rows[0]);
+
+    }catch(err : any){
+        sendResponse(res, 500, false, err.messagge);
+    }
+}
+
 
 const usersController = {
     createUser,
-    getAllUser
+    getAllUser,
+    getSingleUser
 }
 
 

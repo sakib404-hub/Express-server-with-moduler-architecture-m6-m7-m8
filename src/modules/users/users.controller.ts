@@ -16,12 +16,9 @@ const createUser = async(req : Request, res : Response) =>{
 
 const getAllUser = async(req : Request, res : Response)=>{
     try{
-        const userData = {
-            name : 'Md. Sakib Hossen', 
-            age : 26
-        }
 
-        sendResponse(res, 200, true, 'Users Information fetched successfully', userData);
+        const result = await usersService.getAllUserFromDatabase();
+        sendResponse(res, 200, true, 'Users Information fetched successfully', result.rows);
 
     }catch(err : any){
         sendResponse(res, 500, false, err.message);

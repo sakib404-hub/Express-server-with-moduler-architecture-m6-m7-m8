@@ -10,13 +10,19 @@ const createUserIntoDatabase = async(payLoad : IUser)=>{
         `, [name, email, password, is_active, age]);
     
     delete result.rows[0].password; //deleting the password in the returing result
-    
+
+    return result;
+}
+
+const getAllUserFromDatabase = async() =>{
+    const result = await pool.query(`SELECT * FROM users`);
     return result;
 }
 
 
 const usersService = {
-    createUserIntoDatabase
+    createUserIntoDatabase,
+    getAllUserFromDatabase
 }
 
 export default usersService;

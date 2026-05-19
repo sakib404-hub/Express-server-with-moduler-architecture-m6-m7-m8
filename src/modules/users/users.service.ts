@@ -41,12 +41,18 @@ const updateUserInformationIntoDatabase = async( id : string, payLoad : IUser)=>
     return result;
 }
 
+const deleteUserInformationFromDatabase = async(id : string)=>{
+    const result = await pool.query(`DELETE FROM users WHERE id=$1 RETURNING *`, [id]);
+    return result;
+}
+
 
 const usersService = {
     createUserIntoDatabase,
     getAllUserFromDatabase,
     getSingleUserFromDatabase,
-    updateUserInformationIntoDatabase
+    updateUserInformationIntoDatabase,
+    deleteUserInformationFromDatabase
 }
 
 export default usersService;

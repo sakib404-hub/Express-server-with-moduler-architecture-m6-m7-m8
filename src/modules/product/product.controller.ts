@@ -46,7 +46,6 @@ const getSingleProduct = async (req: Request, res: Response) => {
         if (result.rowCount === 0) {
             return sendResponse(res, 404, false, 'Product not found!');
         }
-        console.log(result.rows[0]);
 
         return sendResponse(res, 200, true, 'Product Information fetched successfully', result.rows[0]);
 
@@ -82,7 +81,7 @@ const updateProductInformation = async (req: Request, res: Response) => {
 
         const result = await productService.updateProductInformationIntoDatabase(id as string, body)
 
-        if (result.rowCount === 0){
+        if (result.rowCount === 0) {
             return sendResponse(res, 404, false, 'Product with id is not found',);
         }
 

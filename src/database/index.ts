@@ -23,20 +23,37 @@ export const initDB = async () => {
             `)
 
         await pool.query(`
-        CREATE TABLE IF NOT EXISTS products(
-        id SERIAL PRIMARY KEY,
+            CREATE TABLE IF NOT EXISTS products(
+            id SERIAL PRIMARY KEY,
 
-        name VARCHAR(255) NOT NULL,
-        description TEXT NOT NULL,
-        price NUMERIC(10,2) NOT NULL,
-        in_stock BOOLEAN DEFAULT true,
-        category_id INT NOT NULL,
-        brand VARCHAR(255),
+            name VARCHAR(255) NOT NULL,
+            description TEXT NOT NULL,
+            price NUMERIC(10,2) NOT NULL,
+            in_stock BOOLEAN DEFAULT true,
+            category_id INT NOT NULL,
+            brand VARCHAR(255),
 
-        created_at TIMESTAMPTZ DEFAULT NOW(),
-        updated_at TIMESTAMPTZ DEFAULT NOW()
+            created_at TIMESTAMPTZ DEFAULT NOW(),
+            updated_at TIMESTAMPTZ DEFAULT NOW()
             )
         `);
+
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS profiles(
+            id SERIAL PRIMARY KEY,
+
+            user_id INT UNIQUE NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+
+            bio TEXT,
+            address TEXT,
+
+            phone VARCHAR(255),
+            gender VARCHAR(255),
+
+            created_at TIMESTAMPTZ DEFAULT NOW(),
+            updated_at TIMESTAMPTZ DEFAULT NOW()
+            )
+            `)
 
         console.log('Database connected successfully');
     } catch (err: any) {

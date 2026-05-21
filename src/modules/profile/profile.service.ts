@@ -21,8 +21,14 @@ const createProfileIntoDatabse = async(payLoad : Profile)=>{
 
 }
 
+const getAllProfileFromDatabase = async() =>{
+    const result = await pool.query(`SELECT * FROM profiles`);
+    return result;
+}
+
 const profileServces = {
-    createProfileIntoDatabse
+    createProfileIntoDatabse,
+    getAllProfileFromDatabase
 }
 
 export default profileServces;

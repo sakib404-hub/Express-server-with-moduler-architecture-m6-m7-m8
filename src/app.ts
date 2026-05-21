@@ -3,6 +3,7 @@ import express from 'express'
 import { usersRoute } from "./modules/users/users.route";
 import { productRoute } from "./modules/product/product.route";
 import { profileRouter } from "./modules/profile/profile.route";
+import { authRouter } from "./modules/auth/auth.route";
 
 const app : Application = express();
 
@@ -13,6 +14,7 @@ app.use(express.json())
 app.use('/users', usersRoute);
 app.use('/products', productRoute);
 app.use('/profiles', profileRouter);
+app.use('/api/auth', authRouter)
 
 
 

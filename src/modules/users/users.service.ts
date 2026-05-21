@@ -5,23 +5,24 @@ import bcrypt from 'bcrypt'
 
 const createUserIntoDatabase = async(payLoad : IUser)=>{
     const {name , email, password,  is_active = false, age } = payLoad;
-
+                                            //entered password , salt number
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const result = await pool.query(`
         INSERT INTO users(name, email, password, is_active, age) VALUES($1, $2, $3, $4, $5) RETURNING *
         `, [name, email, hashedPassword, is_active, age]);
-
+    
+    delete result.rows[0].password;
     return result;
 }
 
 const getAllUserFromDatabase = async() =>{
-    const result = await pool.query(`SELECT * FROM users`);
+    const result = await pool.query(`SELECT  id, name, email, is_active, age, created_at, updated_at FROM users`);
     return result;
 }
 
 const getSingleUserFromDatabase = async(id : string)=>{
-    const result = await pool.query(`SELECT * FROM users WHERE id=$1`, [id]);
+    const result = await pool.query(`SELECT  id, name, email, is_active, age, created_at, updated_at FROM users WHERE id=$1`, [id]);
     return result;
 }
 
@@ -46,7 +47,6 @@ const deleteUserInformationFromDatabase = async(id : string)=>{
     const result = await pool.query(`DELETE FROM users WHERE id=$1 RETURNING *`, [id]);
     return result;
 }
-
 
 const usersService = {
     createUserIntoDatabase,

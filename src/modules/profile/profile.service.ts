@@ -31,10 +31,16 @@ const getSingleProfile = async(id : string)=>{
     return result;
 }
 
+const deleteProfileFromDatabase = async(id : string)=>{
+    const result = await pool.query(`DELETE FROM profiles WHERE id=$1 RETURNING *`, [id]);
+    return result;
+}
+
 const profileServces = {
     createProfileIntoDatabse,
     getAllProfileFromDatabase,
-    getSingleProfile
+    getSingleProfile,
+    deleteProfileFromDatabase
 }
 
 export default profileServces;

@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import { sendResponse } from "../../utility/sendResponse";
 import profileServces from "./profile.service";
+import { pool } from "../../database";
 
 
 const createProfile = async(req : Request, res : Response) =>{
@@ -52,10 +53,30 @@ const getSingleProfile = async(req : Request, res : Response)=>{
     }
 }
 
+const deleteProfile = async(req : Request, res : Response)=>{
+   try{
+
+        const {id} = req.params;
+
+        const result = await profileServces.deleteProfileFromDatabase(id as string);
+
+        if(result.rowCount === 0){
+            return sendResponse(res, 400, false, 'Profile does not exist in the database');
+        }
+
+    return sendResponse(res, 200, true, 'Profile informaton deleted successfully');
+
+   }catch(err : any){
+
+    return sendResponse(res, 500, false, err.message)
+   }
+}
+
 const profileController = {
     createProfile,
     getAllProfile,
-    getSingleProfile
+    getSingleProfile,
+    deleteProfile
 }
 
 export default profileController;

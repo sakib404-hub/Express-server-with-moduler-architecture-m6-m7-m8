@@ -36,9 +36,26 @@ const getAllProfile = async(req : Request, res : Response)=>{
     }
 }
 
+const getSingleProfile = async(req : Request, res : Response)=>{
+    try{
+        const {id} = req.params;
+        const result = await profileServces.getSingleProfile(id as string);
+
+        if(result.rowCount === 0){
+            return sendResponse(res, 400, false, 'Profile does not exist')
+        }
+
+        return sendResponse(res, 200, true, 'Profile found', result.rows[0])
+
+    }catch(err : any){
+        return sendResponse(res, 500, false, err.message)
+    }
+}
+
 const profileController = {
     createProfile,
-    getAllProfile
+    getAllProfile,
+    getSingleProfile
 }
 
 export default profileController;

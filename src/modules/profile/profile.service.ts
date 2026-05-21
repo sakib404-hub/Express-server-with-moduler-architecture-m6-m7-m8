@@ -26,9 +26,15 @@ const getAllProfileFromDatabase = async() =>{
     return result;
 }
 
+const getSingleProfile = async(id : string)=>{
+    const result = await pool.query(`SELECT * FROM profiles WHERE id=$1`, [id]);
+    return result;
+}
+
 const profileServces = {
     createProfileIntoDatabse,
-    getAllProfileFromDatabase
+    getAllProfileFromDatabase,
+    getSingleProfile
 }
 
 export default profileServces;

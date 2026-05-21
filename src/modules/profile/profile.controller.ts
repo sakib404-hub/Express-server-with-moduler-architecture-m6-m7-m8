@@ -1,7 +1,6 @@
 import type { Request, Response } from "express";
 import { sendResponse } from "../../utility/sendResponse";
 import profileServces from "./profile.service";
-import { pool } from "../../database";
 
 
 const createProfile = async(req : Request, res : Response) =>{

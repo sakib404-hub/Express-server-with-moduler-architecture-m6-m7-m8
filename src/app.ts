@@ -5,10 +5,12 @@ import { productRoute } from "./modules/product/product.route";
 import { profileRouter } from "./modules/profile/profile.route";
 import { authRouter } from "./modules/auth/auth.route";
 import logger from "./middleware/logger";
+import CookieParser from "cookie-parser";
 
 const app: Application = express();
 
 //middleware for the json information --> middleware works as a middleman between the two 
+app.use(CookieParser())
 app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({ extended: true }))

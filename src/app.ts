@@ -6,6 +6,8 @@ import { profileRouter } from "./modules/profile/profile.route";
 import { authRouter } from "./modules/auth/auth.route";
 import logger from "./middleware/logger";
 import CookieParser from "cookie-parser";
+import cors from 'cors'
+import globalErrorHandler from "./utility/globalErroHanler";
 
 const app: Application = express();
 
@@ -15,6 +17,15 @@ app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({ extended: true }))
 
+
+// const corsOptions = {
+//   origin: 'http://localhost:5000',
+// }
+
+app.use(cors({
+  origin: 'http://localhost:5000',
+}));
+
 app.use(logger)
 
 
@@ -22,7 +33,8 @@ app.use(logger)
 app.use('/users', usersRoute);
 app.use('/products', productRoute);
 app.use('/profiles', profileRouter);
-app.use('/api/auth', authRouter)
+app.use('/api/auth', authRouter);
+
 
 
 
@@ -32,5 +44,7 @@ app.get('/', async (req: Request, res: Response) => {
         message: 'This is the root route of this server'
     })
 })
+
+app.use(globalErrorHandler)
 
 export default app;

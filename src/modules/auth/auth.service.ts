@@ -46,7 +46,7 @@ const generateToken = async (token: string) => {
         throw new Error('UnAuthorized Access!');
     }
 
-    const decoded = jwt.verify(token as string, config.jwtSecret as string) as JwtPayload;
+    const decoded = jwt.verify(token as string, config.refresh_token_secret as string) as JwtPayload;
 
     const userExist = await pool.query(`SELECT * FROM users WHERE email=$1`, [decoded.email]);
 

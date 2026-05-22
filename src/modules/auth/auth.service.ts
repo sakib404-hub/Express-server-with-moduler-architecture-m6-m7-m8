@@ -30,7 +30,8 @@ const loginUserIntoDatabase = async(payLoad : AuthInfo)=>{
         id : userExist.rows[0].id,
         name : userExist.rows[0].name,
         email : userExist.rows[0].email,
-        is_active : userExist.rows[0].is_active
+        is_active : userExist.rows[0].is_active,
+        role : userExist.rows[0].role
     }
 
     const accessToken = jwt.sign(jwtPayload, config.jwtSecret as string, {expiresIn : '1d'})

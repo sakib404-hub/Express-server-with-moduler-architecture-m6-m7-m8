@@ -4,13 +4,13 @@ import bcrypt from 'bcrypt'
 
 
 const createUserIntoDatabase = async(payLoad : IUser)=>{
-    const {name , email, password,  is_active = false, age } = payLoad;
-                                            //entered password , salt number
+    const {name , email, password,  is_active = false, age, role } = payLoad;
+                                 //entered password , salt number
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const result = await pool.query(`
-        INSERT INTO users(name, email, password, is_active, age) VALUES($1, $2, $3, $4, $5) RETURNING *
-        `, [name, email, hashedPassword, is_active, age]);
+        INSERT INTO users(name, email, password, is_active, age, role) VALUES($1, $2, $3, $4, $5, COALESCE($6, 'user')) RETURNING *
+        `, [name, email, hashedPassword, is_active, age, role]);
     
     delete result.rows[0].password;
     return result;

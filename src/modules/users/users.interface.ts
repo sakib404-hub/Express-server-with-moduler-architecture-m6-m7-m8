@@ -3,5 +3,6 @@ export interface IUser {
     email: string;
     password: string;
     is_active: boolean;
-    age: number | null; // because NOT NULL was not specified
+    age: number | null; // because NOT NULL was not specified,
+    role ? : 'admin' | 'user' | 'agent'
 }

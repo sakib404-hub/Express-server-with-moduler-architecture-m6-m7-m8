@@ -3,6 +3,7 @@ import { sendResponse } from "../utility/sendResponse";
 import jwt, { type JwtHeader, type JwtPayload } from 'jsonwebtoken'
 import config from "../config/config";
 import { pool } from "../database";
+import type { Roles } from "../types/types";
 
 
 const auth = (...roles : Roles[]) => {

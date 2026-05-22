@@ -34,8 +34,10 @@ const loginUserIntoDatabase = async(payLoad : AuthInfo)=>{
         role : userExist.rows[0].role
     }
 
-    const accessToken = jwt.sign(jwtPayload, config.jwtSecret as string, {expiresIn : '1d'})
-    return accessToken;
+    const accessToken = jwt.sign(jwtPayload, config.jwtSecret as string, {expiresIn : '1d'});
+    const refreshToken = jwt.sign(jwtPayload, config.refresh_token_secret as string, {expiresIn : '1d'});
+    
+    return {accessToken, refreshToken};
 }
 
 const authService = {

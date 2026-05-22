@@ -8,6 +8,14 @@ const loginUser = async(req : Request, res : Response)=>{
 
         const result = await authService.loginUserIntoDatabase(req.body);
 
+        const {refreshToken} = result;
+
+        res.cookie('refreshToken', refreshToken, {
+            secure : false,
+            httpOnly : true,
+            sameSite : 'lax',
+        })
+
         sendResponse(res ,200, true, 'User information retrived successfully', result)
 
     }catch(err : any){
